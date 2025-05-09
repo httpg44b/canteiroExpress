@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -24,10 +23,11 @@ const Hero = () => {
           
           <div className="hidden lg:block">
             <div className="w-full h-72 bg-gray-200 rounded-lg shadow-lg relative overflow-hidden">
-              {/* Placeholder para imagem de uma betoneira */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-gray-500 text-lg">Imagem ilustrativa de uma betoneira</span>
-              </div>
+              <img 
+                src="https://th.bing.com/th/id/OIP.wjqpQyujFbC2Yu6bImO6UAHaEc?cb=iwc1&rs=1&pid=ImgDetMain" 
+                alt="Imagem ilustrativa de uma betoneira" 
+                className="absolute inset-0 w-full h-full object-cover" 
+              />
             </div>
           </div>
         </div>
