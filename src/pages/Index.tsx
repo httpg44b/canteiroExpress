@@ -12,10 +12,14 @@ import WhatsAppButton from '../components/WhatsAppButton';
 const Index = () => {
   const [selectedEquipment, setSelectedEquipment] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [quantity, setQuantity] = useState(1);
+  const [days, setDays] = useState(1);
 
-  const handleFormChange = (equipment: string, city: string) => {
+  const handleFormChange = (equipment: string, city: string, quantity: number, days: number) => {
     setSelectedEquipment(equipment);
     setSelectedCity(city);
+    setQuantity(quantity);
+    setDays(days);
   };
 
   return (
@@ -27,7 +31,7 @@ const Index = () => {
       <Equipment />
       <QuoteSection onFormChange={handleFormChange} />
       <Footer />
-      <WhatsAppButton equipment={selectedEquipment} city={selectedCity} />
+      <WhatsAppButton equipment={selectedEquipment} city={selectedCity} quantity={quantity} days={days} />
     </div>
   );
 };

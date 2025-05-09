@@ -3,7 +3,7 @@ import React from 'react';
 import QuoteForm from './QuoteForm';
 
 interface QuoteSectionProps {
-  onFormChange: (equipment: string, city: string) => void;
+  onFormChange: (equipment: string, city: string, quantity: number, days: number) => void;
 }
 
 const QuoteSection: React.FC<QuoteSectionProps> = ({ onFormChange }) => {

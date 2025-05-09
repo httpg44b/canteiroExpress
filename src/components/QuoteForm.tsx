@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
 import {
@@ -17,15 +17,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 interface FormValues {
   equipmentType: string;
   city: string;
+  quantity: number;
+  days: number;
 }
 
 interface QuoteFormProps {
-  onFormChange: (equipment: string, city: string) => void;
+  onFormChange: (equipment: string, city: string, quantity: number, days: number) => void;
 }
 
 const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
@@ -33,6 +36,8 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
     defaultValues: {
       equipmentType: '',
       city: '',
+      quantity: 1,
+      days: 1,
     },
   });
 
@@ -54,7 +59,7 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
     { value: 'salvador', label: 'Salvador' },
   ];
 
-  const handleFormChange = (fieldName: keyof FormValues, value: string) => {
+  const handleFormChange = (fieldName: keyof FormValues, value: string | number) => {
     form.setValue(fieldName, value);
     
     const currentValues = form.getValues();
@@ -62,7 +67,7 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
     const city = cityOptions.find(c => c.value === currentValues.city)?.label || '';
     
     if (equipment && city) {
-      onFormChange(equipment, city);
+      onFormChange(equipment, city, currentValues.quantity, currentValues.days);
     }
   };
 
@@ -73,11 +78,11 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
     if (equipment && city) {
       toast({
         title: 'Orçamento solicitado!',
-        description: `Você solicitou um orçamento para ${equipment} em ${city}`,
+        description: `Você solicitou um orçamento para ${data.quantity} ${equipment} por ${data.days} dias em ${city}`,
       });
       
       // Abrir o WhatsApp com a mensagem pré-preenchida
-      const message = `Olá! Preciso de um orçamento para alugar uma ${equipment} em ${city}.`;
+      const message = `Olá! Preciso de um orçamento para alugar ${data.quantity} ${equipment} por ${data.days} dias em ${city}.`;
       const whatsappUrl = `https://wa.me/5511951338478?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
     }
@@ -109,6 +114,44 @@ const QuoteForm: React.FC<QuoteFormProps> = ({ onFormChange }) => {
                       ))}
                     </SelectContent>
                   </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-lg font-medium text-gray-700">Quantidade</FormLabel>
+                <FormControl>
+                  <Input 
+                    type="number" 
+                    min="1"
+                    onChange={(e) => handleFormChange('quantity', parseInt(e.target.value || "1"))}
+                    value={field.value}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="days"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-lg font-medium text-gray-700">Dias de Aluguel</FormLabel>
+                <FormControl>
+                  <Input 
+                    type="number" 
+                    min="1"
+                    onChange={(e) => handleFormChange('days', parseInt(e.target.value || "1"))}
+                    value={field.value}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

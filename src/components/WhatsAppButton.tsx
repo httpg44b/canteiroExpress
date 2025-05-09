@@ -4,11 +4,13 @@ import React from 'react';
 interface WhatsAppButtonProps {
   equipment: string;
   city: string;
+  quantity: number;
+  days: number;
 }
 
-const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ equipment, city }) => {
+const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ equipment, city, quantity, days }) => {
   const handleClick = () => {
-    const message = `Olá! Preciso de um orçamento para alugar uma ${equipment || '[tipo de equipamento]'} em ${city || '[cidade]'}.`;
+    const message = `Olá! Preciso de um orçamento para alugar ${quantity} ${equipment || '[tipo de equipamento]'} por ${days} dias em ${city || '[cidade]'}.`;
     const whatsappUrl = `https://wa.me/5511951338478?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
